@@ -7,9 +7,7 @@ https://github.com/aussenrist15/stock-app
 
 Its very simple. Just download both projects on your pc or clone them. Save everything on your computer in the following format:
 
-Main Folder : 
--> client (folder)
--> All the files from this project
+Main Folder contains a folder named 'client' and all the project files from this project
 
 # Note:
 
