@@ -1,14 +1,28 @@
 const express = require("express");
 const router = express.Router();
+const Customer = require("../Models/Customer");
 
 router
   .route("/")
-  .get((req, res) => {
-    res.send("GET REQUEST RECEIVED");
+  .get(async (req, res) => {
+    try {
+      const customers = await Customer.find();
+
+      res.send(customers);
+    } catch (err) {
+      res.send(err);
+    }
+
     // TODO get all the customers from database
   })
-  .post((req, res) => {
-    res.send("POST REQUEST RECEIVED");
+  .post(async (req, res) => {
+    try {
+      const customer = await Customer.create(req.body);
+      res.send("Added");
+    } catch (err) {
+      res.send("Error");
+    }
+
     // TODO add a customer into the database
   });
 
