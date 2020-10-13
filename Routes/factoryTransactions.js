@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const FactoryTransaction = require("../Models/FactoryTransaction");
 
 const data = [
   {
@@ -26,10 +27,11 @@ router
     res.send(data);
     // TODO get all the transactions from database
   })
-  .post((req, res) => {
-    console.log(typeof req.body);
-    data.push(req.body);
-    res.send("Ok hogya jee");
+  .post(async (req, res) => {
+    try {
+      const factoryTransaction = await FactoryTransaction.create(req.body);
+      res.send("Added");
+    } catch (error) {}
     // TODO add a transaction into the database
   });
 

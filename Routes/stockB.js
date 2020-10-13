@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const StockB = require("../Models/StockB");
 
 router
   .route("/")
@@ -7,8 +8,11 @@ router
     res.send("GET REQUEST RECEIVED");
     // TODO get all the stock data from database
   })
-  .post((req, res) => {
-    res.send("POST REQUEST RECEIVED");
+  .post(async (req, res) => {
+    try {
+      const stock = await StockB.create(req.body);
+      res.send("Added");
+    } catch (error) {}
     // TODO add a stock into the database
   });
 
