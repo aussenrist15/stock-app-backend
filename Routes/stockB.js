@@ -4,8 +4,13 @@ const StockB = require("../Models/StockB");
 
 router
   .route("/")
-  .get((req, res) => {
-    res.send("GET REQUEST RECEIVED");
+  .get(async (req, res) => {
+    try {
+      const retStock = await StockB.find();
+      res.send(retStock);
+    } catch (err) {
+      res.send("Unexpected error occured while fetching data from the server");
+    }
     // TODO get all the stock data from database
   })
   .post(async (req, res) => {
