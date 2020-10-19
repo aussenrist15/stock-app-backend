@@ -28,14 +28,32 @@ router
 
 router
   .route("/:id")
-  .delete((req, res) => {
-    res.send("DEL REQUEST RECEIVED");
-    // TODO delete a Factory from the database
+  .delete(async (req, res) => {
+    const { id } = req.params;
+    try {
+      const result = await Factory.deleteOne({ _id: id });
+      res.send("Deleted");
+    } catch (err) {
+      res.send("Error");
+      console.log(err);
+    }
   })
   .get((req, res) => {
     //TODO get a single Factory with the id of @param id
     const { id } = req.params;
     res.send(id);
+  })
+  .put(async (req, res) => {
+    try {
+      console.log(req.body.Updated);
+      const { id } = req.params;
+      const filter = { _id: id };
+      const update = { totalBal: req.body.Updated };
+      const doc = await Factory.findOneAndUpdate(filter, update, { new: true });
+      res.send("Updated");
+    } catch (err) {
+      res.send("Error");
+    }
   });
 
 module.exports = router;

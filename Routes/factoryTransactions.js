@@ -18,9 +18,6 @@ router
 router
   .route("/:id")
   .delete(async (req, res) => {
-    const { id } = req.params;
-    const obje = data.filter((item) => item.id != id);
-
     // TODO delete a transaction from the database
   })
   .get(async (req, res) => {
