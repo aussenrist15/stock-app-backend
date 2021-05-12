@@ -17,6 +17,7 @@ router
   })
   .post(async (req, res) => {
     try {
+      console.log(req.body);
       const customer = await Customer.create(req.body);
       res.send("Added");
     } catch (err) {
@@ -35,6 +36,7 @@ router
   .get((req, res) => {
     //TODO get a single customer with the id of @param id
     const { id } = req.params;
+    console.log(id);
     res.send(id);
   });
 

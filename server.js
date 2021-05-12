@@ -1,5 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
+const cors = require("cors");
 const factory_transactionsAPI = require("./Routes/factoryTransactions");
 const customer_transactionsAPI = require("./Routes/customerTransactions");
 const customersAPI = require("./Routes/customers");
@@ -12,7 +13,7 @@ const app = express();
 app.use(express.json());
 dotenv.config({ path: "./config/config.env" });
 connectDB();
-
+app.use(cors());
 app.use("/api/v1/factory-transactions", factory_transactionsAPI);
 app.use("/api/v1/customer-transactions", customer_transactionsAPI);
 app.use("/api/v1/customers", customersAPI);
