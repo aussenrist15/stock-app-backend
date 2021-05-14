@@ -1,15 +1,14 @@
 const mongoose = require("mongoose");
 
 const StockSchema = new mongoose.Schema({
-  STOCKA: {
-    type: Number,
-    required: false,
-    default: 0,
+  name: {
+    type: String,
+    required: true,
   },
 
-  STOCKB: {
+  stock: {
     type: Number,
-    required: false,
+    required: true,
     default: 0,
   },
 });

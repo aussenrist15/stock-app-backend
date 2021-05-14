@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const StockA = require("../Models/StockA");
+const TotalStock = require("../Models/TotalStock");
 
 router
   .route("/")
@@ -29,5 +30,28 @@ router.route("/:id").delete((req, res) => {
   res.send("DEL REQUEST RECEIVED");
   // TODO delete a Stock from the database
 });
+
+router
+  .route("/total")
+  .get(async (req, res) => {
+    try {
+      const A = await TotalStock.find({ name: "A" });
+      res.json(A);
+    } catch (err) {
+      res.json(err);
+    }
+  })
+  .post(async (req, res) => {
+    try {
+      console.log(req.body);
+      await TotalStock.findOneAndUpdate(
+        { name: "A" },
+        { stock: req.body.stock }
+      );
+      res.json({ msg: "Ok hai boss" });
+    } catch (error) {
+      res.json({ msg: "Error agya hai yar" });
+    }
+  });
 
 module.exports = router;

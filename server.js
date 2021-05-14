@@ -8,11 +8,14 @@ const factoryAPI = require("./Routes/factory");
 const AstockAPI = require("./Routes/stockA");
 const BstockAPI = require("./Routes/stockB");
 const connectDB = require("./config/db");
+const TotalStock = require("./Models/TotalStock");
 
 const app = express();
 app.use(express.json());
 dotenv.config({ path: "./config/config.env" });
+var fs = require("fs");
 connectDB();
+
 app.use(cors());
 app.use("/api/v1/factory-transactions", factory_transactionsAPI);
 app.use("/api/v1/customer-transactions", customer_transactionsAPI);
