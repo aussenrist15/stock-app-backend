@@ -19,9 +19,10 @@ router
     try {
       console.log(req.body);
       const customer = await Customer.create(req.body);
-      res.send("Added");
+      res.json({ err: false });
     } catch (err) {
-      res.send("Error");
+      console.log(err);
+      res.json({ err: true });
     }
 
     // TODO add a customer into the database
@@ -33,9 +34,15 @@ router
     res.send("DEL REQUEST RECEIVED");
     // TODO delete a customer from the database
   })
-  .get((req, res) => {
+  .get(async (req, res) => {
     //TODO get a single customer with the id of @param id
     const { id } = req.params;
+    try {
+      let cust = await Customer.findById(id);
+      res.json({ cust });
+    } catch (err) {
+      res.json({ err: true });
+    }
     console.log(id);
     res.send(id);
   });

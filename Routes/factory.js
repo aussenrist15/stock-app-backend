@@ -8,9 +8,9 @@ router
     try {
       const factories = await Factory.find();
 
-      res.send(factories);
+      res.json({ factories });
     } catch (err) {
-      res.send(err);
+      res.json(err);
     }
 
     // TODO get all the Factorys from database
@@ -18,9 +18,9 @@ router
   .post(async (req, res) => {
     try {
       const factory = await Factory.create(req.body);
-      res.send("Added");
+      res.json({ err: false });
     } catch (err) {
-      res.send("Error");
+      res.json({ err: true });
     }
 
     // TODO add a Factory into the database
@@ -38,9 +38,15 @@ router
       console.log(err);
     }
   })
-  .get((req, res) => {
+  .get(async (req, res) => {
     //TODO get a single Factory with the id of @param id
     const { id } = req.params;
+    try {
+      const fac = await Factory.findById(id);
+      res.json({ fac });
+    } catch (err) {
+      res.json({ err });
+    }
     res.send(id);
   })
   .put(async (req, res) => {
@@ -50,9 +56,9 @@ router
       const filter = { _id: id };
       const update = { totalBal: req.body.Updated };
       const doc = await Factory.findOneAndUpdate(filter, update, { new: true });
-      res.send("Updated");
+      res.json({ err: false });
     } catch (err) {
-      res.send("Error");
+      res.json({ err: true });
     }
   });
 

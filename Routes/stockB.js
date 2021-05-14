@@ -17,7 +17,9 @@ router
     try {
       const stock = await StockB.create(req.body);
       res.send("Added");
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
     // TODO add a stock into the database
   });
 

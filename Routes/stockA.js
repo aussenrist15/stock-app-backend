@@ -20,6 +20,7 @@ router
       res.send("Added");
     } catch (error) {
       res.send("Error Occured");
+      console.log(error);
     }
     // TODO add a stock into the database
   });

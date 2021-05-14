@@ -1,35 +1,52 @@
 const express = require("express");
 const router = express.Router();
 const CustomerTransaction = require("../Models/CustomerTransaction");
+const Customer = require("../Models/Customer");
 
 router
   .route("/")
   .get((req, res) => {
-    res.send(data);
+    res.send("Hello world");
     // TODO get all the transactions from database
   })
   .post(async (req, res) => {
     try {
       const customerTransaction = await CustomerTransaction.create(req.body);
-      res.send("Added");
-    } catch (error) {}
+      let diff = req.body.totalBill - req.body.paid;
+      let Cust = await Customer.findById(req.body.customerID);
+      let newBal = Cust.totalBal + diff;
+      await Customer.findByIdAndUpdate(req.body.customerID, {
+        totalBal: newBal,
+      });
+
+      res.json({ err: false });
+    } catch (error) {
+      res.json({ error });
+    }
     // TODO add a transaction into the database
   });
 
 router
   .route("/:id")
-  .delete((req, res) => {
+  .get(async (req, res) => {
     const { id } = req.params;
-    const obje = data.filter((item) => item.id != id);
-
-    res.send(obje);
-    // TODO delete a transaction from the database
+    try {
+      let transactions = await CustomerTransaction.find({ customerID: id });
+      res.json({ transactions });
+    } catch (err) {
+      res.json({ err });
+    }
   })
-  .get((req, res) => {
+  .delete(async (req, res) => {
     const { id } = req.params;
-    const obje = data.filter((item) => item.id == id);
-    res.send(obje);
-    // TODO get all transactions with the user ID of @param id
+    try {
+      await CustomerTransaction.findByIdAndDelete(id);
+      res.json({ err: false });
+    } catch (err) {
+      res.json({ err: true });
+    }
+
+    // TODO delete a transaction from the database
   });
 
 module.exports = router;

@@ -1,17 +1,26 @@
 const express = require("express");
 const router = express.Router();
 const FactoryTransaction = require("../Models/FactoryTransaction");
+const Factory = require("../Models/Factory");
 
 router
   .route("/")
-  .get((req, res) => {
+  .get(async (req, res) => {
     // TODO get all the transactions from database
   })
   .post(async (req, res) => {
     try {
       const factoryTransaction = await FactoryTransaction.create(req.body);
-      res.send("Added");
-    } catch (error) {}
+      let diff = req.body.totalBill - req.body.paid;
+      let Cust = await Factory.findById(req.body.factoryID);
+      let newBal = Cust.totalBal + diff;
+      await Factory.findByIdAndUpdate(req.body.factoryID, {
+        totalBal: newBal,
+      });
+      res.json({ err: false });
+    } catch (error) {
+      res.json({ err: true });
+    }
     // TODO add a transaction into the database
   });
 
@@ -22,10 +31,10 @@ router
   })
   .get(async (req, res) => {
     const { id } = req.params;
-    const obje = data.filter((item) => item.id == id);
+
     try {
-      const retData = await FactoryTransaction.find({ factoryID: id });
-      res.send(retData);
+      const transactions = await FactoryTransaction.find({ factoryID: id });
+      res.json({ transactions });
     } catch (err) {
       res.send(
         "Unexpected error occured while getting data from server. Please try again"
